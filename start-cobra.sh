@@ -23,7 +23,7 @@ osascript <<-eof
 			tell localS3Session
 				set name to "Local S3 Asset Server"
 				write text "cd /Users/brentmcivor/Intrepica/local-s3"
-				write text "http-server -p --cors"
+				write text "http-server -p 7777 --cors"
 			end tell
 			
 			set cobraWatchSession to (launch session "Hotkey session")
