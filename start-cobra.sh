@@ -26,12 +26,28 @@ osascript <<-eof
 				write text "http-server -p 7777 --cors"
 			end tell
 			
-			set cobraWatchSession to (launch session "Hotkey session")
-			tell cobraWatchSession
+			set cobraWatchBrentSession to (launch session "Hotkey session")
+			tell cobraWatchBrentSession
 				set name to "Cobra Watch Brent"
 				write text "cd ~/Intrepica/cobra/gc_component_engine"
 				write text "npm install"
 				write text "npm run brent"
+			end tell
+			
+			set cobraWatchDanSession to (launch session "Hotkey session")
+			tell cobraWatchDanSession
+				set name to "Cobra Watch Dan"
+				write text "cd ~/Intrepica/cobra/gc_component_engine"
+				write text "npm install"
+				write text "npm run watch"
+			end tell
+			
+			set cobraWatchSWSession to (launch session "Hotkey session")
+			tell cobraWatchSWSession
+				set name to "Cobra Watch Sight Words"
+				write text "cd ~/Intrepica/cobra/gc_component_engine"
+				write text "npm install"
+				write text "npm run sw"
 			end tell
 			
 			set cobraServerSession to (launch session "Hotkey session")
