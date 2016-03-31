@@ -41,6 +41,12 @@ osascript <<-eof
 				write text "npm run server"
 			end tell
 			
+			set cobraPassengerSession to (launch session "Hotkey session")
+			tell cobraPassengerSession
+				set name to "Cobra Passenger"
+				write text "cd ~/Intrepica/cobra/gc_component_engine"
+				write text "passenger start"
+			end tell
 			set cobraGitSession to (launch session "Hotkey session")
 			tell cobraGitSession
 				set name to "Cobra Git"
