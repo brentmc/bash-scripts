@@ -18,13 +18,19 @@ osascript <<-eof
 		set myTerminal to current terminal
 		tell myTerminal
 		
-											
+			########################################################
+			## Serves the MP3s and SWFs from a local s3 instance	
+			########################################################							
 			set localS3Session to (launch session "Hotkey session")
 			tell localS3Session
 				set name to "Local S3 Asset Server"
 				write text "cd /Users/brentmcivor/Intrepica/local-s3"
 				write text "http-server -p 7777 --cors"
 			end tell
+
+			########################################################
+			## Watches the codebase and rebuilds on changes
+			########################################################
             set cobraWatchAppSession to (launch session "Hotkey session")
             tell cobraWatchAppSession
             set name to "Cobra Watch App"
@@ -33,6 +39,9 @@ osascript <<-eof
                 write text "npm run app"
             end tell
 			
+			########################################################
+			## Serves the node app
+			########################################################
 			set cobraServerSession to (launch session "Hotkey session")
 			tell cobraServerSession
 				set name to "Cobra Run Server"
@@ -41,12 +50,19 @@ osascript <<-eof
 				write text "npm run server"
 			end tell
 			
+			########################################################
+			## Starts Passenger for reverse proxy, load balance, auto restart etc	
+			########################################################
 			set cobraPassengerSession to (launch session "Hotkey session")
 			tell cobraPassengerSession
 				set name to "Cobra Passenger"
 				write text "cd ~/Intrepica/cobra/gc_component_engine"
 				write text "passenger start"
 			end tell
+			
+			########################################################
+			## GitX window for commits
+			########################################################
 			set cobraGitSession to (launch session "Hotkey session")
 			tell cobraGitSession
 				set name to "Cobra Git"
