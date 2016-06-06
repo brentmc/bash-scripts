@@ -7,52 +7,20 @@
 #	-- TO RUN
 #		-- Create a bash alias, e.g. 
 #			-- alias cobragit="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh"
-#		-- run $ startlp
-# More details can be found here
+#		-- run $ cobragit
 
-osascript <<-eof
-
-	tell application "iTerm"
-		activate
-		
-		set myTerminal to current terminal
-		tell myTerminal
-
-			set cobraAppSession to (launch session "Hotkey session")
-			tell cobraAppSession
-				set name to "Cobra App"
-				write text "cd /Users/brentmcivor/Intrepica/cobra/cobra-app"
-				write text "gitx"
-			end tell
-
-			set cobraAppsSession to (launch session "Hotkey session")
-			tell cobraAppsSession
-				set name to "Cobra Apps"
-				write text "cd /Users/brentmcivor/Intrepica/cobra/cobra-apps"
-				write text "gitx"
-			end tell
-
-			set cobraEngineSession to (launch session "Hotkey session")
-			tell cobraEngineSession
-				set name to "Cobra Engine"
-				write text "cd /Users/brentmcivor/Intrepica/cobra/cobra-engine"
-				write text "gitx"
-			end tell
-
-			set cobraToolsSession to (launch session "Hotkey session")
-			tell cobraToolsSession
-				set name to "Cobra Tools"
-				write text "cd /Users/brentmcivor/Intrepica/cobra/cobra-tools"
-				write text "gitx"
-			end tell
-
-            set cobraUISession to (launch session "Hotkey session")
-            tell cobraUISession
-				set name to "Cobra UI"
-				write text "cd /Users/brentmcivor/Intrepica/cobra/cobra-ui"
-				write text "gitx"
-			end tell
-
-		end tell
-	end tell
-eof
+##############################################################################################################
+## UPDATE June 2016
+## Previously I had an AppleScript that went through and opened up new terminal windows for each command
+## At the start of June this stopped working and I couldn't figure out why
+## I now use this tool called ttab to open new tabs ->  https://www.npmjs.com/package/ttab
+##
+## To run multiple commands you need to do eval then wrap all commands in SINGLE quotes
+## Put a semicolon between each command
+##############################################################################################################
+ttab -t "Cobra App"     eval 'cd /Users/brentmcivor/Intrepica/cobra/cobra-app; gitx'
+ttab -t "Cobra Apps"    eval 'cd /Users/brentmcivor/Intrepica/cobra/cobra-apps; gitx'
+ttab -t "Cobra Engine"  eval 'cd /Users/brentmcivor/Intrepica/cobra/cobra-engine; gitx'
+ttab -t "Cobra Games"   eval 'cd /Users/brentmcivor/Intrepica/cobra/cobra-games; gitx'
+ttab -t "Cobra Tools"   eval 'cd /Users/brentmcivor/Intrepica/cobra/cobra-tools; gitx'
+ttab -t "Cobra UI"      eval 'cd /Users/brentmcivor/Intrepica/cobra/cobra-ui; gitx'
