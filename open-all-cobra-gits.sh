@@ -27,9 +27,10 @@ app='cobra-app'
 apps='cobra-apps'
 engine='cobra-engine'
 games='cobra-games'
+lpAPI='cobra-lp-api'
 tools='cobra-tools'
 ui='cobra-ui'
-reposAr=($app $apps $engine $games $tools $ui)
+reposAr=($app $apps $engine $games $lpAPI $tools $ui)
 
 ######################################################
 # Opens all repos in a new tab then opens gitx
