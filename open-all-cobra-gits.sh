@@ -6,8 +6,10 @@
 #	-------------------------------------------
 #	-- TO RUN
 #		-- Create a bash alias, e.g. 
-#			-- alias cobragit="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh"
-#		-- run $ cobragit
+#			-- alias opencobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -open"
+#           -- alias pullobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -pull"
+#           -- alias pushcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -push"
+#		-- run $ opencobra
 
 ##############################################################################################################
 ## UPDATE June 2016
