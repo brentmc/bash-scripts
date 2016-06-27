@@ -9,6 +9,7 @@
 #			-- alias opencobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -open"
 #           -- alias pullobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -pull"
 #           -- alias pushcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -push"
+#           -- alias eslintcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -eslint"
 #		-- run $ opencobra
 
 ##############################################################################################################
@@ -47,6 +48,7 @@ function openGitTower {
 function openAll {
   needsToPullDown=$1
   needsToPush=$2
+  needsToLint=$3
 
 	openGitTower
 
@@ -69,6 +71,12 @@ function openAll {
 			command=$command' git push origin master;'
 		fi
 
+		if $needsToLint
+		then
+			echo 'lint'
+			command=$command' eslint ./*;'
+		fi
+
 		#echo $command
 		ttab -t $tabTitle eval $command
 	done
@@ -84,7 +92,7 @@ function confirmPull {
 	select yn in "Yes" "No"; do
 	    case $yn in
 	        "Yes" )
-	            openAll true false
+	            openAll true false false
 	            break;;
 	        "No" )
 	            exit;;
@@ -103,7 +111,7 @@ function confirmPush {
 	select yn in "Yes" "No"; do
 	    case $yn in
 	        "Yes" )
-	            openAll true true
+	            openAll true true false
 	            break;;
 	        "No" )
 	            exit;;
@@ -118,11 +126,15 @@ function confirmPush {
 # ./open-all-cobra-gits.sh -open (opens GitTower and each repo in an iTerm tab)
 # ./open-all-cobra-gits.sh -pull (opens then pulls down)
 # ./open-all-cobra-gits.sh -push (opens, pulls down then pushes up)
+# ./open-all-cobra-gits.sh -eslint (opens, then checks eslint)
 #########################################################################
 key="$1"
 case $key in
 	-open)
-	openAll false false
+	openAll false false false
+	;;
+	-eslint)
+	openAll false false true
 	;;
 	-pull)
 	confirmPull
