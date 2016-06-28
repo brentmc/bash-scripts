@@ -73,7 +73,6 @@ function openAll {
 
 		if $needsToLint
 		then
-			echo 'lint'
 			command=$command' eslint ./*;'
 		fi
 
