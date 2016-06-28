@@ -50,7 +50,7 @@ function openAll {
   needsToPush=$2
   needsToLint=$3
 
-	openGitTower
+	## openGitTower No longer want to open GitTower automatically
 
 	for i in "${reposAr[@]}"
 	do
