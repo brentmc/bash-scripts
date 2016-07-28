@@ -21,7 +21,7 @@
 
 
 ## Watches the codebase and rebuilds on changes
-ttab -t "Cobra Watch Apps"  eval 'cd ~/Intrepica/cobra/cobra-apps; npm install; npm run watch'
+ttab -t "Cobra Watch Apps"  eval 'cd ~/Intrepica/cobra/cobra-apps; npm install; npm run browserDev'
 
 ## Serves the node app
 ttab -t "Cobra Run Server"  eval 'cd ~/Intrepica/cobra/cobra-apps; npm install; npm run server'
