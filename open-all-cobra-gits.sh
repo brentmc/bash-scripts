@@ -10,6 +10,7 @@
 #           -- alias pullobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -pull"
 #           -- alias pushcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -push"
 #           -- alias eslintcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -eslint"
+#           -- alias checkoutcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -checkout"
 #		-- run $ opencobra
 
 ##############################################################################################################
@@ -49,6 +50,8 @@ function openAll {
   needsToPullDown=$1
   needsToPush=$2
   needsToLint=$3
+  needsToCheckout=$4
+  branchToCheckout=$5
 
 	## openGitTower No longer want to open GitTower automatically
 
@@ -74,6 +77,11 @@ function openAll {
 		if $needsToLint
 		then
 			command=$command' eslint ./*;'
+		fi
+
+		if $needsToCheckout
+		then
+			command=$command' git checkout '$branchToCheckout';'
 		fi
 
 		#echo $command
@@ -118,6 +126,36 @@ function confirmPush {
 	done
 }
 
+#########################################################################
+# Use these checkout functions to quickly get all repos to a particular
+# release tag or back to master
+#########################################################################
+function checkoutTag {
+	echo "Which tag do you want to checkout?"
+	read tag
+	openAll false false false true 'tags/'$tag
+}
+
+function checkoutMaster {
+	openAll false false false true "master"
+}
+
+function queryCheckout {
+	echo "This will open every Cobra repo and check out a certain commit."
+	echo "Do you want to check out master or a tagged commit?"
+	select branch in "Master" "Tagged Commit" "Exit"; do
+		case $branch in
+			"Master" )
+				checkoutMaster
+				break;;
+			"Tagged Commit" )
+				checkoutTag
+				break;;
+			"Exit" )
+				exit;;
+		esac
+	done
+}
 
 #########################################################################
 # This is the first stuff that happens
@@ -126,6 +164,7 @@ function confirmPush {
 # ./open-all-cobra-gits.sh -pull (opens then pulls down)
 # ./open-all-cobra-gits.sh -push (opens, pulls down then pushes up)
 # ./open-all-cobra-gits.sh -eslint (opens, then checks eslint)
+# ./open-all-cobra-gits.sh -checkout (opens, then checks out the given tag)
 #########################################################################
 key="$1"
 case $key in
@@ -140,5 +179,8 @@ case $key in
 	;;
 	-push)
 	confirmPush
+	;;
+	-checkout)
+	queryCheckout
 	;;
 esac
