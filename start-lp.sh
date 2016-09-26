@@ -1,88 +1,55 @@
 #!/usr/bin/env bash
-#   ---------------------------------------------------------------------------------------------------------
-#   --This script will open a new instance of iTerm, cd to the correct directories and then start our servers
-#   ---------------------------------------------------------------------------------------------------------
-#
-#	-------------------------------------------
-#	-- TO RUN
-#		-- Create a bash alias, e.g. 
-#			-- alias startlp="cd ~/Intrepica/brents_scripts/ && ./start-lp.sh"
-#		-- run $ startlp
-# More details can be found here
-# https://docs.google.com/document/d/1EyNQvTl6BpRCGUbJu2gJliFxWyLTZM_TB79rnKEDetU
 
-osascript <<-eof
+cobra='~/Intrepica/cobra/cobra-apps'
+lp_webapp='~/Intrepica/playbooks/app_development_box'
 
-	tell application "iTerm"
-		activate
-		
-		set myTerminal to current terminal
-		tell myTerminal
-		
-			set vagrantStartupSession to (launch session "Hotkey session")
-			tell vagrantStartupSession
-				set name to "Vagrant Up"
-				write text "cd ~/Intrepica/lp_webapp/"
-				write text "vagrant up"
-			end tell
-						
-			set lpWebAppSession to (launch session "Hotkey session")
-			tell lpWebAppSession
-				set name to "LP WebApp Rails"
-				write text "cd ~/Intrepica/lp_webapp/"
-			#	write text "brew update"
-			#	write text "gem install bundler"
-			#	write text "bundle update"
-				write text "bundle exec rails s -p 4000"
-			end tell
-					
-			set localFileServerSession to (launch session "Hotkey session")
-			tell localFileServerSession
-				set name to "Local Assets Server"
-				write text "cd /Users/brentmcivor/Intrepica/local-s3"
-				write text "http-server -p 7777 --cors"
-			end tell
-			
-		#	set cobraWatchSession to (launch session "Hotkey session")
-		#	tell cobraWatchSession
-		#		set name to "Cobra Watch"
-		#		write text "cd ~/Intrepica/cobra/gc_cobra_engine"
-		#		write text "npm install"
-		#		write text "npm run watch"
-		#	end tell
-		#	
-		#	set cobraServerSession to (launch session "Hotkey session")
-		#	tell cobraServerSession
-		#		set name to "Cobra Run Server"
-		#		write text "cd ~/Intrepica/cobra/gc_cobra_engine"
-		#		write text "npm install"
-		#		write text "npm run server"
-		#	end tell
-			
-		#   set flash1point5Session to (launch session "Hotkey session")
-		#   tell flash1point5Session
-		#   	set name to "Flash 1.5"
-		#   	write text "cd /Users/brentmcivor/Intrepica/development/Application"
-		#   end tell
-		#   
-		#   set flash1point7Session to (launch session "Hotkey session")
-		#   tell flash1point7Session
-		#   	set name to "Flash 1.7"
-		#   	write text "cd /Users/brentmcivor/Intrepica/literacyplanet/src"
-		#   end tell
-		  
-		#   set lpWebAppSession to (launch session "Hotkey session")
-		#   tell lpWebAppSession
-		#   	set name to "LP WebApp Git"
-		#   	write text "cd ~/Intrepica/lp_webapp/"
-		#   end tell
-			
-		#	set cobraGitSession to (launch session "Hotkey session")
-		#	tell cobraGitSession
-		#		set name to "Cobra Git"
-		#		write text "cd ~/Intrepica/cobra/gc_cobra_engine"
-		#	end tell
-								
-		end tell
-	end tell
-eof
+#########################################################################
+# cobra code
+#########################################################################
+function startCobra {
+	## Watches the codebase and rebuilds on changes
+	ttab -t "Cobra Watch Apps"  eval 'cd '$cobra'; npm install; npm run browserDev'
+
+	## Serves the node app
+	ttab -t "Cobra Run Server"  eval 'cd '$cobra'; npm install; npm run server'
+}
+
+#########################################################################
+# lp-webapp/vagrant code
+#########################################################################
+function startVagrant {
+	command='cd '$lp_webapp'; vagrant up web;'
+	ttab -t "Web Vagrant" eval $command
+
+	command='cd '$lp_webapp'; vagrant up node;'
+	ttab -t "Node Vagrant" eval $command
+}
+
+function stopVagrant {
+	# Running vagrant halt will kill both instances
+	command='cd '$lp_webapp'; vagrant halt;'
+	ttab -t "Stop Vagrant" eval $command
+}
+
+#########################################################################
+# Launch
+#########################################################################
+key="$1"
+case $key in
+	-startJustCobra)
+	startCobra
+	;;
+
+	--startCobraAndVagrant)
+	startCobra
+	startVagrant
+	;;
+
+	-startVagrant)
+	startVagrant
+	;;
+
+	-stopVagrant)
+	stopVagrant
+	;;
+esac

@@ -19,12 +19,16 @@
 ## Put a semicolon between each command
 ##############################################################################################################
 
+##############################################################################################################
+## UPDATE Sep 2016
+## Just use the updated start-lp.sh
+##############################################################################################################
 
 ## Watches the codebase and rebuilds on changes
-ttab -t "Cobra Watch Apps"  eval 'cd ~/Intrepica/cobra/cobra-apps; npm install; npm run browserDev'
+#ttab -t "Cobra Watch Apps"  eval 'cd ~/Intrepica/cobra/cobra-apps; npm install; npm run browserDev'
 
 ## Serves the node app
-ttab -t "Cobra Run Server"  eval 'cd ~/Intrepica/cobra/cobra-apps; npm install; npm run server'
+#ttab -t "Cobra Run Server"  eval 'cd ~/Intrepica/cobra/cobra-apps; npm install; npm run server'
 
 
 ########################################################
