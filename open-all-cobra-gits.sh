@@ -172,6 +172,63 @@ function deleteTag {
 	    esac
 	done
 }
+
+
+#########################################################################
+# Create a branch (locally and remotely) with the same name on all repos
+#########################################################################
+function runBranch {
+	completeBranch="$1"
+	run 'git checkout -b '$completeBranch'; git push origin '$completeBranch
+}
+
+function createBranch {
+	echo "This will create a feature branch on all repos at once."
+	echo "Enter branch name. (e.g. prototypes)"
+	read branch
+	completeBranch='feature/'$branch # so we don't have to manually add feature/ prefix
+
+	echo "Branch: "$completeBranch" will be created locally and remotely"
+	echo "Is this correct?"
+	select yn in "Yes" "No"; do
+	    case $yn in
+	        "Yes" )
+	            runBranch $completeBranch
+	            break;;
+	        "No" )
+	            exit;;
+	    esac
+	done
+}
+
+#########################################################################
+# Delete a branch (locally and remotely) with the same name on all repos
+#########################################################################
+function runDeleteBranch {
+	completeBranch="$1"
+	run 'git branch -d '$completeBranch'; git push origin :'$completeBranch
+}
+
+function deleteBranch {
+	echo "This will delete a feature branch on all repos at once."
+	echo "Enter branch name. (e.g. prototypes)"
+	read branch
+	completeBranch='feature/'$branch # so we don't have to manually add feature/ prefix
+
+	echo "Branch: "$completeBranch" will be deleted locally and remotely"
+	echo "Is this correct?"
+	select yn in "Yes" "No"; do
+	    case $yn in
+	        "Yes" )
+	            runDeleteBranch $completeBranch
+	            break;;
+	        "No" )
+	            exit;;
+	    esac
+	done
+}
+
+
 #########################################################################
 # Use these checkout functions to quickly get all repos to a particular
 # release tag or back to master
@@ -188,9 +245,9 @@ function checkoutTag {
 }
 
 function checkoutBranch {
-	echo "Which branch do you want to checkout? (e.g. feature/prototypes)"
+	echo "Which FEATURE branch do you want to checkout? (e.g. prototypes)"
 	read branch
-	runCheckout $branch
+	runCheckout 'feature/'$branch
 }
 
 function queryCheckout {
@@ -221,6 +278,7 @@ function queryCheckout {
 # ./open-all-cobra-gits.sh -push (opens, pulls down then pushes up)
 # ./open-all-cobra-gits.sh -eslint (opens, then checks eslint)
 # ./open-all-cobra-gits.sh -tag (opens, then tags all repos with given tag and message)
+# ./open-all-cobra-gits.sh -branch (opens, then creates a branch)
 # ./open-all-cobra-gits.sh -checkout (opens, then checks out the given tag)
 #########################################################################
 key="$1"
@@ -242,6 +300,12 @@ case $key in
 	;;
 	-deleteTag)
 	deleteTag
+	;;
+	-branch)
+	createBranch
+	;;
+	-deleteBranch)
+	deleteBranch
 	;;
 	-checkout)
 	queryCheckout
