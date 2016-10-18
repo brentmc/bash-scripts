@@ -187,13 +187,22 @@ function checkoutTag {
 	runCheckout 'tags/sw/v'$tag
 }
 
+function checkoutBranch {
+	echo "Which branch do you want to checkout? (e.g. feature/prototypes)"
+	read branch
+	runCheckout $branch
+}
+
 function queryCheckout {
 	echo "This will open every Cobra repo and check out a certain commit."
-	echo "Do you want to check out master or a tagged commit?"
-	select branch in "Master" "Tagged Commit" "Exit"; do
+	echo "What do you want to check out?"
+	select branch in "Master" "Branch" "Tagged Commit" "Exit"; do
 		case $branch in
 			"Master" )
 				runCheckout "master"
+				break;;
+			"Branch" )
+				checkoutBranch
 				break;;
 			"Tagged Commit" )
 				checkoutTag
