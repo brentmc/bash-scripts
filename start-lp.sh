@@ -8,7 +8,7 @@ lp_webapp='~/Intrepica/playbooks/app_development_box'
 #########################################################################
 function startCobra {
 	## Watches the codebase and rebuilds on changes
-	ttab -t "Cobra Watch Apps"  eval 'cd '$cobra'; npm install; npm run browserDev'
+	ttab -t "Cobra Watch Apps"  eval 'cd '$cobra'; npm install; npm run browserStage'
 
 	## Serves the node app
 	ttab -t "Cobra Run Server"  eval 'cd '$cobra'; npm install; npm run server'
