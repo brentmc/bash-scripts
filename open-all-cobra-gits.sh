@@ -13,6 +13,7 @@
 #           -- alias tagcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -tag"
 #           -- alias deletetagcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -deleteTag"
 #           -- alias checkoutcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -checkout"
+#           -- alias npminstallcobra="cd ~/Intrepica/brents_scripts/ && ./open-all-cobra-gits.sh -npmInstall"
 #		-- run $ opencobra
 
 ##############################################################################################################
@@ -111,6 +112,14 @@ function confirmPush {
 function runLint {
 	run 'eslint ./*;'
 }
+
+#########################################################################
+# Runs npm install on all repos at once
+#########################################################################
+function runNpmInstall {
+	run 'npm install;'
+}
+
 
 #########################################################################
 # Tag the same version and commit message on all repos at once
@@ -280,6 +289,7 @@ function queryCheckout {
 # ./open-all-cobra-gits.sh -tag (opens, then tags all repos with given tag and message)
 # ./open-all-cobra-gits.sh -branch (opens, then creates a branch)
 # ./open-all-cobra-gits.sh -checkout (opens, then checks out the given tag)
+# ./open-all-cobra-gits.sh -npminstall (opens, then runs npm install)
 #########################################################################
 key="$1"
 case $key in
@@ -309,5 +319,8 @@ case $key in
 	;;
 	-checkout)
 	queryCheckout
+	;;
+	-npmInstall)
+	runNpmInstall
 	;;
 esac
